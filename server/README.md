@@ -51,7 +51,8 @@ npx sequelize model:create --name lecturers --attributes lecturer_name:string
 npx sequelize model:create --name courses --attributes lecturer_id:integer,course_name:string
 npx sequelize model:create --name studentscourses --attributes student_id:integer,course_id:integer
 
-Edit your models to indicate the associations. Here's an example:
+* Next step - complete your models. Edit your models to indicate the associations. 
+Here's an example:
 
   class classrooms extends Model {
     static associate(models) {
@@ -62,6 +63,11 @@ Edit your models to indicate the associations. Here's an example:
     }
   };
 */
+
+# Next step - Execute the db:migrate
+Finally, for migrations, there's nothing to change, and they all ready to generate the table to the Database. Type this command to generate the table to the database using Sequelize.
+
+> npx sequelize db:migrate
 
 *************** Create a github project *****************8
 - On github create a repository (<your repository></your>
