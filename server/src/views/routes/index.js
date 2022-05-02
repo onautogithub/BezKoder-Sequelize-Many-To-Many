@@ -1,52 +1,36 @@
-/*
-
-************************* This is just an Example routes.
-
-********************====> Please Modify to meet your project. <=======
-
-*/
 var express = require('express')
 var router = express.Router()
 var path = require('path')
 const controllerPath = path.join(__dirname, '../../', 'controllers')
 
-// console.log('controllerPath: ', controllerPath)
+console.log('***************************************************************')
+console.log('controllerPath: ', controllerPath)
+console.log('***************************************************************')
 
-const classroomsController = require(controllerPath).classroom
-const studentsController = require(controllerPath).student
-const lecturersController = require(controllerPath).lecturer
-const coursesController = require(controllerPath).course
+const tagsController = require(path.join(controllerPath, 'tags.js'))
+const tutorialsController = require(path.join(controllerPath, 'tutorials.js'))
+
+// const tagsController = require(controllerPath).tags.js
+// const tutorialsController = require(controllerPath).tutorials.js
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' })
 })
 
-router.get('/api/classrooms', classroomsController.list)
-router.get('/api/classrooms/:id', classroomsController.getById)
-router.post('/api/classrooms', classroomsController.add)
-router.put('/api/classrooms/:id', classroomsController.update)
-router.delete('/api/classrooms/:id', classroomsController.delete)
-router.post('/api/classrooms/add_with_students', classroomsController.addWithstudent)
+router.get('/api/tags', tagsController.list)
+router.get('/api/tags/:id', tagsController.getById)
+router.post('/api/tags', tagsController.add)
+router.put('/api/tags/:id', tagsController.update)
+router.delete('/api/tags/:id', tagsController.delete)
 
-router.get('/api/students', studentsController.list)
-router.get('/api/students/:id', studentsController.getById)
-router.post('/api/students', studentsController.add)
-router.put('/api/students/:id', studentsController.update)
-router.delete('/api/students/:id', studentsController.delete)
-router.post('/api/students/add_courses', studentsController.addcourse)
-
-router.get('/api/lecturers', lecturersController.list)
-router.get('/api/lecturers/:id', lecturersController.getById)
-router.post('/api/lecturers', lecturersController.add)
-router.put('/api/lecturers/:id', lecturersController.update)
-router.delete('/api/lecturers/:id', lecturersController.delete)
-router.post('/api/lecturers/add_with_courses', lecturersController.addWithcourse)
-
-router.get('/api/courses', coursesController.list)
-router.get('/api/courses/:id', coursesController.getById)
-router.post('/api/courses', coursesController.add)
-router.put('/api/courses/:id', coursesController.update)
-router.delete('/api/courses/:id', coursesController.delete)
+router.get('/api/tutorials', tutorialsController.list)
+router.get('/api/tutorials/:id', tutorialsController.getById)
+router.post('/api/tutorials', tutorialsController.add)
+router.post('/api/tutorials/addTutorialToTag/:id/:id', tutorialsController.addTutorialToTag)
+// router.post('/api/tutorials/addTutorialToTag/:tagsId/TurorialsId', tutorialsController.addTutorialToTag)
+// router.put('/api/tutorials/:id', tutorialsController.update)
+// router.delete('/api/tutorials/:id', tutorialsController.delete)
+// router.post('/api/tutorials/add_courses', tutorialsController.addcourse)
 
 module.exports = router

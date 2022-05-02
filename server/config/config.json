@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "<username>",
-    "password": "<password>",
-    "database": "<yourdatabasename-dev",
+    "username": "root",
+    "password": "root",
+    "database": "bezkoder-manytomany-dev",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "username": "<username>",
-    "password": "<password>",
-    "database": "<yourdatabasename-text",
+    "username": "root",
+    "password": "root",
+    "database": "bezkoder-manytomany-test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "<username>",
-    "password": "<password>",
-    "database": "<yourdatabasename-prod",
+    "username": "root",
+    "password": "root",
+    "database": "bezkoder-manytomany-prod",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

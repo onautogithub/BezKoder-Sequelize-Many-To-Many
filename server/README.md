@@ -5,6 +5,11 @@
 *** In my case, I am using mysql ***
 *** I am using Vue version 2.9.6 which I installed globally
 
+*************************************************************************************************
+*** Important Note: ***
+*** Sequelize uses the plural forms of the model names when looking for the tables by default.****
+**************************************************************************************************
+
   ******************* 
   ----Option 1 - You can use this project as a start for your server side by cloning this project
 
@@ -45,23 +50,31 @@ You can use Sequelize-CLI to generate a new Sequelize model.
 The following is a command example to create the models for `classrooms`, `students`, `lecturers`, `courses`,
 and `studentcourses`.
 
-npx sequelize model:create --name classrooms --attributes class_name:string
-npx sequelize model:create --name students --attributes classroom_id:integer,student_name:string
-npx sequelize model:create --name lecturers --attributes lecturer_name:string
-npx sequelize model:create --name courses --attributes lecturer_id:integer,course_name:string
-npx sequelize model:create --name studentscourses --attributes student_id:integer,course_id:integer
+
+npx sequelize model:create --name tutorials --attributes title:string,description:string
+npx sequelize model:create --name tags --attributes name:string
 
 * Next step - complete your models. Edit your models to indicate the associations. 
 Here's an example:
 
-  class classrooms extends Model {
-    static associate(models) {
-      classrooms.hasMany(models.students, {
-        foreignKey: 'classroom_id',
-        as: 'students',
-      });
+Modify the association for tutorials.js
+    static associate (models) {
+      // define association here
+      tutorials.belongsToMany(models.tags, {
+        through: 'tutorials_tags',
+        as: 'tags',
+        foreignKey: 'tutorial_id'
+      })
     }
-  };
+Modify the association for tags.js
+    static associate (models) {
+      // define association here
+      tags.belongsToMany(models.tutorials, {
+        through: 'tutorials_tags',
+        as: 'tutorials',
+        foreignKey: 'tag_id'
+      })
+    }
 */
 
 # Next step - Execute the db:migrate
