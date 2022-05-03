@@ -98,30 +98,66 @@ module.exports = {
       .catch((error) => res.status(400).send(error))
   },
 
-  // addTutorialToTag (req, res) {
-  addTutorialToTag (req, resp) {
+  //   addTutorialToTag (req, res) {
+  //     console.log('I am in the addTutorialtoTag')
+  //     const tagId = req.params.id
+  //     const tutorialId = req.params.id
+  //     // console.log(tagId, tutorialId)
+  //     return tags.findByPk(tagId)
+  //       .then((tags) => {
+  //         if (!tags) {
+  //           console.log('Tag not found!')
+  //           return res.status(400).send({
+  //             message: 'Tag not found!'
+  //           })
+  //         }
+  //         return tutorials.findByPk(tutorialId).then((tutorial) => {
+  //           if (!tutorial) {
+  //             console.log('Tutorial not found!')
+  //             return res.status(400).send({
+  //               message: 'Tutorial not found!'
+  //             })
+  //           }
+  //           tags.addTutorial(tutorial)
+  //           console.log(`>> added Tutorial id=${tutorials.id} to Tag id=${tags.id}`)
+  //           return tags
+  //         })
+  //       })
+  //       .catch((err) => {
+  //         console.log('>> Error while adding Tutorial to Tag: ', err)
+  //       })
+  //   }
+  // }
+  addTutorialToTag (req, res) {
     console.log('I am in the addTutorialtoTag')
-    const tagId = req.params.id
-    const tutorialId = req.params.id
-    console.log(tagId, tutorialId)
+    const tagId = req.params.tagId
+    const tutorialId = req.params.tutorialId
+    console.log(tagId)
+    console.log(tutorialId)
     return tags.findByPk(tagId)
       .then((tags) => {
         if (!tags) {
           console.log('Tag not found!')
-          return null
+          return res.status(400).send({
+            message: 'Tag not found!'
+          })
         }
         return tutorials.findByPk(tutorialId).then((tutorial) => {
           if (!tutorial) {
             console.log('Tutorial not found!')
-            return null
+            return res.status(400).send({
+              message: 'Tutorial not found!'
+            })
           }
           tags.addTutorial(tutorial)
-          console.log(`>> added Tutorial id=${tutorials.id} to Tag id=${tags.id}`)
-          return tags
+            .then(() => res.status(200).send(tags))
+          console.log('>> added Tutorial id: ', tutorialId, 'to Tag id: ', tagId)
         })
+          .catch((error) => res.status(400).send(error))
       })
       .catch((err) => {
         console.log('>> Error while adding Tutorial to Tag: ', err)
+        res.status(400).send(err)
       })
   }
 }

@@ -1,5 +1,10 @@
 // Pre-setup Express, JS REST API, mySQL, Sequelize and ES6
-// I made minor modifications to setup the server. I orginzed the files in a certain struction and added additional packages to help me check my code.
+
+// This project is based on BezKoder Sequelize Many-to-Many Association example – Node.js & MySQL
+// The tutorial URL: https://www.bezkoder.com/sequelize-associate-many-to-many/
+
+// I made several modifications to it, and fixed issues that I encountered. 
+// I created routes (views->routes->index.js) to call the methods from either Postman or another frontend.
 
 *Note: 
 *** In my case, I am using mysql ***
@@ -39,17 +44,19 @@
 # Next step - Create / generate your models
 
 /*
-This is just an example model you can leverage to create your models/tables for your project.
+*************************************************************************************************
+*** Important Note: ***
+*** Sequelize uses the plural forms of the model names when looking for the tables by default.****
+You can use the following parameters to preserve the table names and not generate timestamps
+      freezeTableName: true,
+      timestamps: false
+**************************************************************************************************
 Important note:
 Only use lower cases and plural for your models (e.g. below: classrooms is the model)
 
 OR Create or Generate Sequelize Models and Migrations
 
-You can use Sequelize-CLI to generate a new Sequelize model.
-
-The following is a command example to create the models for `classrooms`, `students`, `lecturers`, `courses`,
-and `studentcourses`.
-
+Use Sequelize-CLI to generate a new Sequelize model.
 
 npx sequelize model:create --name tutorials --attributes title:string,description:string
 npx sequelize model:create --name tags --attributes name:string
@@ -76,9 +83,78 @@ Modify the association for tags.js
       })
     }
 */
+*************************************************************************************************
+*** Important Note: ***
+*** In my case, I had to explicitly (manually) create the link table. Follow the steps below to do so:
+**************************************************************************************************
+You can manually generate a migration file using the following CLI command:
+
+- From the server directory, run the following command in the form of:
+ ***************** npx sequelize migration:generate --name <<name_of_your_migration>>
+
+> npx sequelize migration:generate --name mymigration
+
+* This will generate a blank skeleton migration file.
+* Note: make sure to run the command from the containing directory of your migrations directory; otherwise the CLI will generate a new migration dir for you.
+
+- Modify the mymigration file:
+
+** ====================================Start of file =================================================
+'use strict'
+
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    // Add altering commands here.
+
+    await queryInterface.createTable('tutorialstags', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      tutorial_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'tutorials',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
+      tag_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'tags',
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    })
+  },
+
+  async down (queryInterface, Sequelize) {
+    // Add reverting commands here.
+    await queryInterface.dropTable('tutorialstags')
+  }
+}
+=============================End of file ========================================
+
 
 # Next step - Execute the db:migrate
-Finally, for migrations, there's nothing to change, and they all ready to generate the table to the Database. Type this command to generate the table to the database using Sequelize.
+- Finally, we are ready to generate the table to the Database. 
+- Type this command to generate the table to the database using Sequelize.
 
 > npx sequelize db:migrate
 
@@ -312,3 +388,8 @@ git push -u origin main
 
 
 # Next step - go on with your project.
+
+*************************************************************************************************
+*** Important Note: ***
+*** In my case, I had to explicitly (manually) create the link table. Follow the steps in option 1 for more information or simply clone my github repository.
+**************************************************************************************************
